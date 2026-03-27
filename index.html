@@ -1,0 +1,1084 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>Junior CEO Academy - Quiz & Dashboard</title>
+    <style>
+        /* TAB LOGIC */
+        section { display: none; padding: 40px; animation: fadeIn 0.4s; min-height: 650px; }
+        section:target { display: block; }
+        #home { display: block; }
+        section:target ~ #home { display: none; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* NAVIGATION */
+        .nav-bar { background: #2c3e50; padding: 15px 0; position: sticky; top: 0; z-index: 1000; display: flex; justify-content: center; gap: 15px; }
+        .tab-link { color: white; text-decoration: none; padding: 10px 18px; font-weight: bold; border-radius: 8px; font-size: 14px; transition: 0.3s; }
+        .tab-link:hover { background: #34495e; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+
+        /* QUIZ STYLING */
+        .quiz-container { background: #f1f2f6; border-radius: 15px; padding: 25px; margin-top: 30px; border: 2px solid #dfe6e9; }
+        .quiz-q { font-weight: bold; color: #2d3436; margin-bottom: 15px; display: block; }
+        .option { display: block; background: white; padding: 10px; border-radius: 8px; margin-bottom: 8px; cursor: pointer; border: 1px solid #ddd; transition: 0.2s; }
+        .option:hover { background: #e3f2fd; border-color: #0984e3; }
+
+        /* CARDS */
+        .card { background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 25px; border-left: 5px solid #3498db; }
+		/* This code only runs when the student clicks 'Print' */
+/* This code only runs when the student clicks 'Print' */
+@media print {
+    /* 1. Hide interactive "web-only" elements */
+    .nav-bar, .theme-btn, iframe, button, marquee, .quiz-container button {
+        display: none !important; 
+    }
+
+    /* 2. Reset colors for paper (saves ink!) */
+    body {
+        background: white !important;
+        color: black !important;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* 3. Simplify cards for a professional look */
+    .card {
+        border: 1px solid #eee !important;
+        box-shadow: none !important;
+        margin-bottom: 20px !important;
+        page-break-inside: avoid; /* Prevents a card from being split across two pages */
+    }
+
+    /* 4. Layout for the printed report */
+    section {
+        display: block !important; /* Shows all tabs on the paper at once */
+        padding: 20px 0 !important;
+        min-height: auto !important; 
+        page-break-after: always; /* Each tab (Home, Finance, etc.) starts on a new page */
+    }
+
+    /* 5. Ensure images (like her logo or headers) fit the page */
+    img {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+    </style>
+</head>
+<body id="mainBody" style="font-family: 'Segoe UI', Arial, sans-serif; background-color: #f0f2f5; margin: 0; transition: background 0.5s;">
+
+    <nav class="nav-bar">
+        <a href="#home" class="tab-link">🏠 DASHBOARD</a>
+        <a href="#branding" class="tab-link">🎨 BRANDING</a>
+        <a href="#finance" class="tab-link">💰 FINANCE</a>
+        <a href="#settings" class="tab-link">⚙️ ADMIN</a>
+    </nav>
+
+  <div style="max-width: 900px; margin: 20px auto; background: white; border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); overflow: hidden;">
+        
+<section id="home" style="padding: 40px;">
+    <img src="Screenshot 2026-03-25 115712.png" style="width: 100%; border-radius: 15px; margin-bottom: 20px;">
+    <h1 style="color: #2c3e50; margin-top: 0;">The CEO Launchpad</h1>
+    
+    <div style="background: #f8f9fa; border-left: 5px solid #f1c40f; padding: 20px; border-radius: 12px; margin-bottom: 25px;">
+        <h3 style="margin-top: 0;">📜 Mission Statement</h3>
+        <p style="font-size: 0.9em; color: #636e72;">Every great CEO has a "Why." Write yours below.</p>
+        <textarea placeholder="Define your 'Why'..." style="width:100%; padding:12px; border-radius:8px; border:1px solid #ccc; box-sizing: border-box;"></textarea>
+    </div>
+
+   <div class="card" style="border-left-color: #9b59b6; background: #faf5ff; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+    <h3 style="margin-top: 0; color: #8e44ad; display: flex; align-items: center; gap: 10px;">
+        📅 Daily CEO Briefing
+    </h3>
+    <p style="font-size: 0.85em; color: #7f8c8d; margin-bottom: 20px;">What are your top 3 goals for your business today? Type them below:</p>
+    
+    <div style="display: flex; flex-direction: column; gap: 15px;">
+        <div style="display: flex; gap: 15px; align-items: center; background: white; padding: 10px; border-radius: 10px; border: 1px solid #eee;">
+            <input type="checkbox" style="transform: scale(1.3); cursor: pointer;">
+            <input type="text" placeholder="Goal 1: e.g., Finish my logo design" 
+                   style="flex: 1; border: none; font-size: 1em; color: #2c3e50; outline: none; background: transparent;">
+        </div>
+
+        <div style="display: flex; gap: 15px; align-items: center; background: white; padding: 10px; border-radius: 10px; border: 1px solid #eee;">
+            <input type="checkbox" style="transform: scale(1.3); cursor: pointer;">
+            <input type="text" placeholder="Goal 2: e.g., Calculate my starting costs" 
+                   style="flex: 1; border: none; font-size: 1em; color: #2c3e50; outline: none; background: transparent;">
+        </div>
+
+        <div style="display: flex; gap: 15px; align-items: center; background: white; padding: 10px; border-radius: 10px; border: 1px solid #eee;">
+            <input type="checkbox" style="transform: scale(1.3); cursor: pointer;">
+            <input type="text" placeholder="Goal 3: e.g., Research 3 competitors" 
+                   style="flex: 1; border: none; font-size: 1em; color: #2c3e50; outline: none; background: transparent;">
+        </div>
+    </div>
+
+    <div style="margin-top: 15px; text-align: right;">
+        <small style="color: #9b59b6; font-style: italic;">Tip: Check the box when the goal is finished! ✅</small>
+    </div>
+</div>
+
+    <div style="display: flex; gap: 20px; margin-bottom: 30px; align-items: stretch; flex-wrap: nowrap;">
+        <div style="flex: 0 0 65%; background: #2d3436; padding: 15px; border-radius: 15px; color: white;">
+            <h3 style="color: #ffd700; margin-top: 0; font-size: 1.1em;">📺 CEO Masterclass</h3>
+            <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px;">
+                <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                        src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" 
+                        allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+        </div>
+
+        <div style="flex: 1; background: #fff9db; border-radius: 15px; padding: 15px; border: 2px solid #f1c40f; display: flex; flex-direction: column;">
+            <h4 style="margin-top: 0; color: #856404;">📝 CEO Live Notes</h4>
+            <textarea style="flex: 1; width: 100%; background: transparent; border: none; font-family: 'Courier New', monospace; outline: none; resize: none;" placeholder="Type ideas here..."></textarea>
+        </div>
+    </div>
+
+    <div style="background: #f1f2f6; border-radius: 20px; padding: 30px; border: 1px solid #dfe6e9;">
+        <h3 style="margin-top: 0; color: #0984e3;">🧠 Knowledge Check: Level 1</h3>
+        </div>
+</<div class="card" style="border-left-color: #27ae60; background: #f0fff4; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+    <h3 style="margin-top: 0; color: #1b5e20;">🎯 CEO Readiness Checklist</h3>
+    
+    <div style="margin-bottom: 10px;">
+        <input type="checkbox" id="task1" onclick="updateProgress()"> 
+        <label for="task1" style="font-weight: bold; cursor: pointer;"> Watch the Masterclass Video</label>
+    </div>
+    <div style="margin-bottom: 10px;">
+        <input type="checkbox" id="task2" onclick="updateProgress()"> 
+        <label for="task2" style="font-weight: bold; cursor: pointer;"> Complete the Business Quiz</label>
+    </div>
+    <div style="margin-bottom: 20px;">
+        <input type="checkbox" id="task3" onclick="updateProgress()"> 
+        <label for="task3" style="font-weight: bold; cursor: pointer;"> Write my Mission Statement</label>
+    </div>
+
+    <div style="width: 100%; background: #dfe6e9; height: 12px; border-radius: 10px; overflow: hidden;">
+        <div id="pBar" style="width: 0%; background: #27ae60; height: 100%; transition: 0.5s;"></div>
+    </div>
+    <p id="pText" style="font-size: 0.9em; font-weight: bold; margin-top: 8px; color: #27ae60;">Current Progress: 0%</p>
+</div>
+
+<div style="display: flex; gap: 20px; margin-bottom: 30px; flex-wrap: wrap; align-items: stretch;">
+    <div style="flex: 2; min-width: 320px; background: #2d3436; padding: 20px; border-radius: 20px; color: white; box-shadow: 0 10px 30px rgba(0,0,0,0.15);">
+        <h3 style="color: #ffd700; margin-top: 0; font-size: 1.1em;">📺 CEO Masterclass</h3>
+        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; border: 1px solid #444;">
+            <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" 
+                    src="https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ" 
+                    title="YouTube video player" 
+                    allowfullscreen referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+        </div>
+        <p style="font-size: 0.8em; color: #bdc3c7; margin-top: 15px; text-align: center;">Press Play and take notes on the right! ⮕</p>
+    </div>
+
+    <div style="flex: 1; min-width: 250px; background: #fff9db; border-radius: 20px; padding: 20px; border: 2px solid #f1c40f; display: flex; flex-direction: column; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <h4 style="margin-top: 0; color: #856404;">📝 CEO Live Notes</h4>
+        <textarea id="ceoNotes" style="flex: 1; width: 100%; min-height: 250px; background: transparent; border: none; font-family: 'Courier New', monospace; font-size: 1.1em; outline: none; resize: none; line-height: 1.6;" 
+                  placeholder="1. My business idea is...
+2. My target customers are...
+3. My estimated profit is..."></textarea>
+        <div style="border-top: 1px dashed #f1c40f; margin-top: 10px; padding-top: 10px; text-align: right;">
+            <small style="color: #856404; font-weight: bold;">[Active Learning Mode]</small>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="border-left-color: #27ae60; background: #f8fff9; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+    <h3 style="margin-top: 0; color: #1b5e20;">💵 Cash Flow Monitor</h3>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e0e0e0; text-align: center;">
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #2e7d32;">TOTAL SALES</label>
+            <input type="number" id="totalSales" oninput="calculateLiveProfit()" placeholder="0" style="width: 100%; border: none; font-size: 1.2em; font-weight: bold; text-align: center; outline: none;">
+            <small>TZS</small>
+        </div>
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e0e0e0; text-align: center;">
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #c62828;">TOTAL COSTS</label>
+            <input type="number" id="totalCosts" oninput="calculateLiveProfit()" placeholder="0" style="width: 100%; border: none; font-size: 1.2em; font-weight: bold; text-align: center; outline: none;">
+            <small>TZS</small>
+        </div>
+        <div id="profitBox" style="background: #e8f5e9; padding: 15px; border-radius: 12px; border: 2px solid #2e7d32; text-align: center;">
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #1b5e20;">NET PROFIT</label>
+            <span id="liveProfitLabel" style="font-size: 1.2em; font-weight: bold; color: #1b5e20;">0</span> <small>TZS</small>
+        </div>
+    </div>
+    <div id="profitFeedback" style="text-align: center; font-size: 0.85em; font-weight: bold; color: #666;">Enter numbers to see health.</div>
+</div>
+
+<div class="card" style="border: 3px solid #2c3e50; background: #ffffff; padding: 30px; border-radius: 20px; text-align: center; margin-top: 40px;">
+    <h2 style="color: #2c3e50; margin-top: 0;">🎓 Business Readiness Portfolio</h2>
+    <p style="color: #7f8c8d;">Generate your official Business Plan for printing.</p>
+    <button onclick="prepareAndPrint()" style="background: #2c3e50; color: white; padding: 15px 40px; border: none; border-radius: 50px; font-weight: bold; cursor: pointer; transition: 0.3s;">
+        🖨️ PRINT MY BUSINESS PLAN
+    </button>
+</div>
+
+<script>
+    // 1. Function to track progress and update the rank
+    function updateProgress() {
+        // Get the checkboxes
+        let task1 = document.getElementById('task1');
+        let task2 = document.getElementById('task2');
+        let task3 = document.getElementById('task3');
+
+        // Put them in a list and filter to see which are checked
+        let tasks = [task1, task2, task3];
+        let completed = tasks.filter(t => t && t.checked).length;
+        
+        // Calculate the percentage
+        let percentage = Math.round((completed / tasks.length) * 100);
+        
+        // Update the Progress Bar and Text
+        document.getElementById('pBar').style.width = percentage + "%";
+        document.getElementById('pText').innerHTML = percentage + "% CEO Readiness Reached";
+        
+        // Update the Rank based on progress
+        checkRank(percentage);
+    }
+
+    // 2. Logic to change rank colors and titles
+    function checkRank(percentage) {
+        let rankLabel = document.getElementById('rankText');
+        if (!rankLabel) return; // Safety check
+
+        if (percentage === 0) {
+            rankLabel.innerHTML = "Startup Trainee";
+            rankLabel.style.color = "#e67e22";
+        } else if (percentage > 0 && percentage < 100) {
+            rankLabel.innerHTML = "Rising Entrepreneur";
+            rankLabel.style.color = "#3498db";
+        } else if (percentage === 100) {
+            rankLabel.innerHTML = "Certified CEO";
+            rankLabel.style.color = "#27ae60";
+        }
+    }
+
+    // 3. Allows the CEO name to be updated (Optional expansion)
+    function updateProfileName(input) {
+        console.log("CEO Name updated to: " + input.value);
+    }
+
+    // 4. Quote Generator Logic
+    function newQuote() {
+        const quotes = [
+            "Your most unhappy customers are your greatest source of learning.",
+            "Quality is remembered long after the price is forgotten.",
+            "The best way to predict the future is to create it.",
+            "Opportunities don't happen. You create them.",
+            "A successful business requires one simple thing: PASSION."
+        ];
+        let randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('quoteBox').innerHTML = `"${randomQuote}"`;
+    }
+function calculateLiveProfit() {
+    let sales = parseFloat(document.getElementById('totalSales').value) || 0;
+    let costs = parseFloat(document.getElementById('totalCosts').value) || 0;
+    let profit = sales - costs;
+
+    let label = document.getElementById('liveProfitLabel');
+    let box = document.getElementById('profitBox');
+    let feedback = document.getElementById('profitFeedback');
+
+    label.innerHTML = profit.toLocaleString(); // Formats the number nicely
+
+    if (profit > 0) {
+        box.style.background = "#e8f5e9";
+        box.style.borderColor = "#2e7d32";
+        feedback.innerHTML = "✅ SUCCESS: You are making a profit!";
+        feedback.style.color = "#2e7d32";
+    } else if (profit < 0) {
+        box.style.background = "#ffebee";
+        box.style.borderColor = "#c62828";
+        feedback.innerHTML = "⚠️ WARNING: You are losing money! Lower your costs.";
+        feedback.style.color = "#c62828";
+    } else {
+        box.style.background = "#f5f5f5";
+        box.style.borderColor = "#e0e0e0";
+        feedback.innerHTML = "⚖️ BREAK EVEN: You aren't making or losing money.";
+        feedback.style.color = "#666";
+    }
+}	
+function prepareAndPrint() {
+    // 1. We tell the browser to print the current page
+    // 2. We add a special "Print Class" to hide unnecessary things like the video or menu
+    window.print();
+}
+function updateCard() {
+    const name = document.getElementById('brandNameInput').value;
+    const slogan = document.getElementById('brandSloganInput').value;
+    const primary = document.getElementById('primaryColor').value;
+    const secondary = document.getElementById('secondaryColor').value;
+
+    document.getElementById('cardTitle').innerText = name || "YOUR BUSINESS";
+    document.getElementById('cardSlogan').innerText = slogan || "Your slogan goes here";
+    
+    const card = document.getElementById('bizCard');
+    card.style.backgroundColor = primary;
+    document.getElementById('cardCircle').style.backgroundColor = secondary + '66'; 
+}
+function calculatePrice() {
+    // 1. Get the input values
+    let material = parseFloat(document.getElementById('materialCost').value) || 0;
+    let labor = parseFloat(document.getElementById('laborCost').value) || 0;
+    let margin = parseFloat(document.getElementById('profitMargin').value) || 0;
+
+    // 2. The Formula: (Materials + Labor) + Percentage Profit
+    let totalBaseCost = material + labor;
+    let profitAmount = totalBaseCost * (margin / 100);
+    let finalPrice = totalBaseCost + profitAmount;
+
+    // 3. Update the UI
+    document.getElementById('finalPriceLabel').innerText = Math.round(finalPrice).toLocaleString();
+    
+    // 4. Update the Advice text
+    let advice = document.getElementById('priceAdvice');
+    if (finalPrice > 0) {
+        advice.innerText = "To make " + margin + "% profit, sell for this amount.";
+    } else {
+        advice.innerText = "Enter costs to see your price!";
+    }
+}
+function calculatePrice() {
+    // 1. Get the input values
+    let material = parseFloat(document.getElementById('materialCost').value) || 0;
+    let labor = parseFloat(document.getElementById('laborCost').value) || 0;
+    let margin = parseFloat(document.getElementById('profitMargin').value) || 0;
+
+    // 2. The Formula: (Materials + Labor) + Percentage Profit
+    let totalBaseCost = material + labor;
+    let profitAmount = totalBaseCost * (margin / 100);
+    let finalPrice = totalBaseCost + profitAmount;
+
+    // 3. Update the UI
+    document.getElementById('finalPriceLabel').innerText = Math.round(finalPrice).toLocaleString();
+    
+    // 4. Update the Advice text
+    let advice = document.getElementById('priceAdvice');
+    if (finalPrice > 0) {
+        advice.innerText = "To make " + margin + "% profit, sell for this amount.";
+    } else {
+        advice.innerText = "Enter costs to see your price!";
+    }
+}
+function submitFeedback() {
+    // 1. Show the success message
+    const msg = document.getElementById('submitMsg');
+    msg.style.display = "block";
+    
+    // 2. Play a small 'congratulations' alert
+    alert("Congratulations, CEO! Your feedback has been recorded. You are ready for the next level!");
+    
+    // 3. Optional: You could save this to local storage or send it to a database
+    console.log("Feedback Submitted!");
+}
+function updateFinanceSummary() {
+    // 1. Get Expense values
+    let e1 = parseFloat(document.getElementById('exp1').value) || 0;
+    let e2 = parseFloat(document.getElementById('exp2').value) || 0;
+    let e3 = parseFloat(document.getElementById('exp3').value) || 0;
+    let totalExp = e1 + e2 + e3;
+
+    // 2. Update Expense Label
+    document.getElementById('projExpense').innerText = totalExp.toLocaleString() + " TZS";
+    
+    // 3. Sync with your main Total Sales input (assuming id is 'totalSales')
+    let salesInput = document.getElementById('totalSales');
+    if (salesInput) {
+        let currentSales = parseFloat(salesInput.value) || 0;
+        document.getElementById('projIncome').innerText = currentSales.toLocaleString() + " TZS";
+    }
+}
+
+function calculateBreakEven() {
+    // 1. Get total expenses
+    let e1 = parseFloat(document.getElementById('exp1').value) || 0;
+    let e2 = parseFloat(document.getElementById('exp2').value) || 0;
+    let e3 = parseFloat(document.getElementById('exp3').value) || 0;
+    let totalFixedCosts = e1 + e2 + e3;
+    
+    // 2. Get the price of one single item
+    let pricePerItem = parseFloat(document.getElementById('itemPrice').value) || 0;
+
+    // 3. Calculate units needed
+    let units = 0;
+    if (pricePerItem > 0) {
+        // We use Math.ceil because you can't sell half an item!
+        units = Math.ceil(totalFixedCosts / pricePerItem);
+    }
+
+    // 4. Update the display
+    document.getElementById('unitsToSell').innerText = units.toLocaleString();
+}
+function updateFinanceSummary() {
+    // 1. Get Values
+    let e1 = parseFloat(document.getElementById('exp1').value) || 0;
+    let e2 = parseFloat(document.getElementById('exp2').value) || 0;
+    let e3 = parseFloat(document.getElementById('exp3').value) || 0;
+    let totalExp = e1 + e2 + e3;
+
+    let salesInput = document.getElementById('totalSales');
+    let currentSales = salesInput ? (parseFloat(salesInput.value) || 0) : 0;
+
+    // 2. Update Labels
+    document.getElementById('projExpense').innerText = totalExp.toLocaleString() + " TZS";
+    document.getElementById('projIncome').innerText = currentSales.toLocaleString() + " TZS";
+
+    // 3. SMART ADVICE LOGIC
+    let adviceBox = document.getElementById('financeAdviceBox');
+    let adviceStatus = document.getElementById('adviceStatus');
+    let adviceText = document.getElementById('adviceText');
+    let adviceEmoji = document.getElementById('adviceEmoji');
+
+    if (totalExp > 0 || currentSales > 0) {
+        adviceBox.style.display = "block"; // Show the box
+
+        if (currentSales > totalExp) {
+            // CASE: PROFITABLE
+            adviceBox.style.background = "#e8f5e9";
+            adviceBox.style.borderColor = "#2ecc71";
+            adviceStatus.style.color = "#27ae60";
+            adviceStatus.innerText = "Condition: Profitable 🚀";
+            adviceEmoji.innerText = "💰";
+            adviceText.innerText = "Great job! Your income covers your bills. Consider saving 20% of this profit for future growth.";
+        } 
+        else if (currentSales > 0 && currentSales === totalExp) {
+            // CASE: BREAK EVEN
+            adviceBox.style.background = "#fff9db";
+            adviceBox.style.borderColor = "#f1c40f";
+            adviceStatus.style.color = "#856404";
+            adviceStatus.innerText = "Condition: Break-Even ⚖️";
+            adviceEmoji.innerText = "🤝";
+            adviceText.innerText = "You are safe, but not making money yet. Try to increase your sales by 10% or find a cheaper supplier.";
+        }
+        else if (totalExp > currentSales) {
+            // CASE: LOSS
+            adviceBox.style.background = "#fff5f5";
+            adviceBox.style.borderColor = "#e74c3c";
+            adviceStatus.style.color = "#c0392b";
+            adviceStatus.innerText = "Condition: At Risk ⚠️";
+            adviceEmoji.innerText = "🛑";
+            adviceText.innerText = "Your expenses are too high! Can you cut down on 'Rent' or 'Transport'? You need more customers fast.";
+        }
+    }
+}
+// --- TEAM MANAGEMENT LOGIC ---
+function addTeamMember() {
+    const list = document.getElementById('teamList');
+    const newMember = document.createElement('div');
+    newMember.style.display = "flex";
+    newMember.style.gap = "5px";
+    newMember.innerHTML = `
+        <input type="text" placeholder="Name" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+        <input type="text" placeholder="Role" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+    `;
+    list.appendChild(newMember);
+}
+
+// --- FOCUS TIMER LOGIC ---
+let timeLeft = 25 * 60;
+let timerId = null;
+
+function toggleTimer() {
+    const btn = document.getElementById('startBtn');
+    if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+        btn.innerText = "START";
+        btn.style.background = "#27ae60";
+        document.getElementById('timerStatus').innerText = "Status: Paused";
+    } else {
+        btn.innerText = "PAUSE";
+        btn.style.background = "#f39c12";
+        document.getElementById('timerStatus').innerText = "Status: Working... 🔥";
+        timerId = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                clearInterval(timerId);
+                alert("Time's up CEO! Take a 5 minute break.");
+                resetTimer();
+            }
+        }, 1000);
+    }
+}
+
+function resetTimer() {
+    clearInterval(timerId);
+    timerId = null;
+    timeLeft = 25 * 60;
+    updateTimerDisplay();
+    document.getElementById('startBtn').innerText = "START";
+    document.getElementById('startBtn').style.background = "#27ae60";
+    document.getElementById('timerStatus').innerText = "Status: Reset";
+}
+
+function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    document.getElementById('timerDisplay').innerText = 
+        `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+}
+function updateProfileName(input) {
+    // 1. Get the value the user typed
+    let newName = input.value;
+    
+    // 2. Find any element with the id 'ceoDisplayName' and update it
+    let display = document.getElementById('ceoDisplayName');
+    if (display) {
+        display.innerText = newName || "New Entrepreneur";
+    }
+    
+    // 3. Log it so you can see it working in the background
+    console.log("CEO Name updated to: " + newName);
+}
+function toggleDarkMode() {
+    const isDark = document.getElementById('darkModeToggle').checked;
+    const slider = document.getElementById('slider');
+    
+    // 1. Change Background and Text Colors
+    if (isDark) {
+        document.body.style.backgroundColor = "#1a1a2e"; // Dark Blue/Black
+        document.body.style.color = "#ffffff";
+        slider.style.backgroundColor = "#27ae60"; // Green when ON
+        
+        // Change all cards to a darker gray so they stand out
+        let cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.style.backgroundColor = "#16213e";
+            card.style.color = "#ffffff";
+            card.style.borderColor = "#0f3460";
+        });
+    } else {
+        // 2. Change back to Light Mode
+        document.body.style.backgroundColor = "#f4f7f6";
+        document.body.style.color = "#2c3e50";
+        slider.style.backgroundColor = "#ccc"; // Gray when OFF
+        
+        let cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.style.backgroundColor = "#ffffff";
+            card.style.color = "#2c3e50";
+            card.style.borderColor = "transparent";
+        });
+    }
+}
+</script>
+        </section>
+
+   <section id="branding" style="padding: 40px;">
+    <h2 style="color: #3498db; margin-top: 0;">🎨 Brand Identity Lab</h2>
+    <img src="Screenshot 2026-03-25 115925.png" style="width: 100%; border-radius: 15px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+        
+        <div class="card" style="border-left: 5px solid #3498db; background: #f0f7ff; padding: 20px; border-radius: 15px;">
+            <h3 style="margin-top: 0; color: #2980b9;">📢 Business Identity</h3>
+            <p style="font-size: 0.85em; color: #7f8c8d;">Give your business a name and a catchy slogan.</p>
+            <input type="text" placeholder="Enter Business Name..." style="width:100%; padding:12px; border-radius:8px; border:1px solid #ddd; margin-bottom: 10px; box-sizing: border-box;">
+            <input type="text" placeholder="Enter Slogan (e.g., Quality you can trust)" style="width:100%; padding:12px; border-radius:8px; border:1px solid #ddd; box-sizing: border-box;">
+        </div>
+
+        <div class="card" style="border-left: 5px solid #e67e22; background: #fff5eb; padding: 20px; border-radius: 15px;">
+            <h3 style="margin-top: 0; color: #d35400;">🌈 Brand Colors</h3>
+            <p style="font-size: 0.85em; color: #7f8c8d;">Choose 3 colors that represent your brand "vibe":</p>
+            <div style="display: flex; gap: 15px; margin-top: 10px;">
+                <div style="text-align: center;">
+                    <input type="color" value="#3498db" style="width: 50px; height: 50px; border: none; cursor: pointer; border-radius: 50%;">
+                    <br><small>Primary</small>
+                </div>
+                <div style="text-align: center;">
+                    <input type="color" value="#2ecc71" style="width: 50px; height: 50px; border: none; cursor: pointer; border-radius: 50%;">
+                    <br><small>Secondary</small>
+                </div>
+                <div style="text-align: center;">
+                    <input type="color" value="#f1c40f" style="width: 50px; height: 50px; border: none; cursor: pointer; border-radius: 50%;">
+                    <br><small>Accent</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="card" style="border-left: 5px solid #9b59b6; background: #faf5ff; padding: 20px; border-radius: 15px;">
+            <h3 style="margin-top: 0; color: #8e44ad;">🗣️ Brand Voice</h3>
+            <p style="font-size: 0.85em; color: #7f8c8d;">How does your brand talk to customers?</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px;">
+                <label style="font-size: 0.9em;"><input type="radio" name="voice"> 👔 Professional</label>
+                <label style="font-size: 0.9em;"><input type="radio" name="voice"> ⚡ Energetic</label>
+                <label style="font-size: 0.9em;"><input type="radio" name="voice"> 🎨 Creative</label>
+                <label style="font-size: 0.9em;"><input type="radio" name="voice"> ❤️ Friendly</label>
+            </div>
+        </div>
+
+        <div class="card" style="border-left: 5px solid #27ae60; background: #f0fff4; padding: 20px; border-radius: 15px;">
+            <h3 style="margin-top: 0; color: #219150;">👥 Target Audience</h3>
+            <p style="font-size: 0.85em; color: #7f8c8d;">Who are you selling to? (Check all that apply)</p>
+            <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                <label style="font-size: 0.9em;"><input type="checkbox"> Students/Youth</label>
+                <label style="font-size: 0.9em;"><input type="checkbox"> Local Families</label>
+                <label style="font-size: 0.9em;"><input type="checkbox"> Tourists in Arusha</label>
+                <label style="font-size: 0.9em;"><input type="checkbox"> Large Companies</label>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 25px; background: #ffffff; border: 2px dashed #bdc3c7; border-radius: 15px; padding: 25px;">
+        <h3 style="margin-top: 0; color: #2c3e50;">🖋️ Logo Concept Sketchpad</h3>
+        <p style="font-size: 0.9em; color: #7f8c8d;">Describe what icons or shapes you want in your logo (e.g., "A mountain with a gear on top"):</p>
+        <textarea style="width: 100%; height: 100px; padding: 15px; border-radius: 10px; border: 1px solid #ddd; font-family: inherit; font-size: 1em; outline: none; resize: none; box-sizing: border-box;" 
+                  placeholder="The icons I will use are..."></textarea>
+    </div>
+	<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 25px;">
+    
+    <div class="card" style="border-left: 5px solid #e67e22; background: #fff5eb; padding: 20px; border-radius: 15px;">
+        <h3 style="margin-top: 0; color: #d35400;">🌈 Theme Colors</h3>
+        <p style="font-size: 0.8em; color: #7f8c8d;">Pick colors to update your Business Card below:</p>
+        <div style="display: flex; gap: 20px;">
+            <div>
+                <small style="display: block; margin-bottom: 5px;">Primary</small>
+                <input type="color" id="primaryColor" oninput="updateCard()" value="#3498db" style="width: 60px; height: 60px; border: none; cursor: pointer; border-radius: 10px;">
+            </div>
+            <div>
+                <small style="display: block; margin-bottom: 5px;">Accent</small>
+                <input type="color" id="secondaryColor" oninput="updateCard()" value="#2ecc71" style="width: 60px; height: 60px; border: none; cursor: pointer; border-radius: 10px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="border-left: 5px solid #27ae60; background: #f0fff4; padding: 20px; border-radius: 15px;">
+        <h3 style="margin-top: 0; color: #219150;">👥 Who is your Customer?</h3>
+        <div style="display: flex; flex-direction: column; gap: 8px;">
+            <label><input type="checkbox"> Students in Arusha</label>
+            <label><input type="checkbox"> Local Shop Owners</label>
+            <label><input type="checkbox"> International Tourists</label>
+            <label><input type="checkbox"> Online Customers</label>
+        </div>
+    </div>
+</div>
+
+<div style="margin-top: 30px; display: flex; flex-direction: column; align-items: center; background: #f8f9fa; padding: 30px; border-radius: 20px; border: 1px solid #dfe6e9;">
+    <h3 style="color: #2c3e50; margin-bottom: 20px;">📇 Live Business Card Preview</h3>
+    <div id="bizCard" style="width: 100%; max-width: 400px; height: 220px; background: #3498db; border-radius: 20px; padding: 30px; color: white; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; overflow: hidden; transition: 0.3s;">
+        <div id="cardCircle" style="position: absolute; top: -60px; right: -60px; width: 180px; height: 180px; background: rgba(255,255,255,0.15); border-radius: 50%;"></div>
+        <div>
+            <h2 id="cardTitle" style="margin: 0; font-size: 1.8em; text-transform: uppercase; font-weight: 800;">YOUR BUSINESS</h2>
+            <p id="cardSlogan" style="margin: 5px 0 0; font-size: 1em; opacity: 0.9; font-style: italic;">Slogan goes here</p>
+        </div>
+        <div style="border-top: 1px solid rgba(255,255,255,0.3); padding-top: 20px;">
+            <p style="margin: 0; font-size: 0.9em; font-weight: bold; letter-spacing: 1px;">CHIEF EXECUTIVE OFFICER</p>
+            <p style="margin: 2px 0; font-size: 0.8em; opacity: 0.8;">Arusha, Tanzania</p>
+        </div>
+    </div>
+</div>
+<div class="card" style="border-left-color: #f1c40f; background: #fffdf0; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 30px;">
+    <h3 style="margin-top: 0; color: #856404; display: flex; align-items: center; gap: 10px;">
+        🕵️ Competitor Spy Tool
+    </h3>
+    <p style="font-size: 0.85em; color: #666; margin-bottom: 20px;">To win, you must know your competition. List 2 businesses in Arusha that do what you do.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e0e0e0;">
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #856404;">COMPETITOR NAME</label>
+            <input type="text" placeholder="e.g. Shop X" style="width: 100%; border: none; border-bottom: 1px solid #ddd; padding: 5px; margin-bottom: 10px; outline: none;">
+            
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #c0392b;">THEIR WEAKNESS</label>
+            <input type="text" placeholder="e.g. They are too expensive" style="width: 100%; border: none; border-bottom: 1px solid #ddd; padding: 5px; outline: none;">
+        </div>
+
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #e0e0e0;">
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #856404;">COMPETITOR NAME</label>
+            <input type="text" placeholder="e.g. Shop Y" style="width: 100%; border: none; border-bottom: 1px solid #ddd; padding: 5px; margin-bottom: 10px; outline: none;">
+            
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #c0392b;">THEIR WEAKNESS</label>
+            <input type="text" placeholder="e.g. Bad customer service" style="width: 100%; border: none; border-bottom: 1px solid #ddd; padding: 5px; outline: none;">
+        </div>
+    </div>
+
+    <div style="margin-top: 25px; background: #2c3e50; color: white; padding: 20px; border-radius: 15px; text-align: center;">
+        <h4 style="margin: 0 0 10px 0; color: #f1c40f;">💎 My Secret Weapon (USP)</h4>
+        <p style="font-size: 0.8em; opacity: 0.8; margin-bottom: 15px;">Based on their weaknesses, why will customers come to YOU?</p>
+        <textarea style="width: 90%; height: 60px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; color: white; padding: 10px; outline: none; resize: none;" 
+                  placeholder="Example: I will offer free delivery in Arusha town..."></textarea>
+    </div>
+</div>
+<div class="card" style="border-left-color: #3498db; background: #f0f7ff; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 30px;">
+    <h3 style="margin-top: 0; color: #2980b9; display: flex; align-items: center; gap: 10px;">
+        📢 How will they find you?
+    </h3>
+    <p style="font-size: 0.85em; color: #666; margin-bottom: 20px;">Check the methods you will use to announce your business in Arusha:</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+        
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #d1e9ff;">
+            <h4 style="margin: 0 0 10px 0; font-size: 0.9em; color: #2980b9;">📱 Digital Marketing</h4>
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85em;">
+                <label><input type="checkbox"> WhatsApp Status Updates</label>
+                <label><input type="checkbox"> Instagram/TikTok Posts</label>
+                <label><input type="checkbox"> Facebook Business Page</label>
+                <label><input type="checkbox"> Google Maps Listing</label>
+            </div>
+        </div>
+
+        <div style="background: white; padding: 15px; border-radius: 12px; border: 1px solid #d1e9ff;">
+            <h4 style="margin: 0 0 10px 0; font-size: 0.9em; color: #2980b9;">📍 Local Marketing</h4>
+            <div style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85em;">
+                <label><input type="checkbox"> Printed Flyers/Posters</label>
+                <label><input type="checkbox"> Word of Mouth (Friends/Family)</label>
+                <label><input type="checkbox"> Business Cards (Handouts)</label>
+                <label><input type="checkbox"> Radio/Local Announcements</label>
+            </div>
+        </div>
+
+    </div>
+
+    <div style="margin-top: 20px; border-top: 1px dashed #3498db; padding-top: 20px;">
+        <label style="font-weight: bold; color: #2980b9; font-size: 0.9em;">💰 Marketing Budget (Estimated):</label>
+        <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+            <input type="number" placeholder="How much will you spend?" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd; outline: none;">
+            <span style="font-weight: bold; color: #7f8c8d;">TZS</span>
+        </div>
+        <small style="color: #7f8c8d;">Pro-Tip: Start small. Many CEOs in Arusha start with 0 TZS using WhatsApp!</small>
+    </div>
+</div>
+</section>
+
+        <section id="finance">
+            <h2 style="color: #27ae60;">💰 Financial Modeling</h2>
+            <div class="card" style="border-left-color: #27ae60;">
+                <table style="width: 100%; border-collapse: collapse;">
+                    <tr style="background: #27ae60; color: white;">
+                        <th style="padding: 10px;">Cost</th>
+                        <th style="padding: 10px;">Price</th>
+                    </tr>
+                    <tr>
+                        <td><input type="text" style="width: 90%; padding: 10px; border: none; text-align: center;"></td>
+                        <td><input type="text" style="width: 90%; padding: 10px; border: none; text-align: center;"></td>
+                    </tr>
+                </table>
+            </div>
+			<div class="card" style="border-left-color: #9b59b6; background: #faf5ff; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-top: 30px;">
+    <h3 style="margin-top: 0; color: #8e44ad; display: flex; align-items: center; gap: 10px;">
+        ⚖️ Product Pricing Calculator
+    </h3>
+    <p style="font-size: 0.85em; color: #666; margin-bottom: 20px;">Use this to find the perfect price for one item (e.g., 1 Cake or 1 T-shirt).</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+        
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <div style="background: white; padding: 12px; border-radius: 10px; border: 1px solid #e1d5e7;">
+                <label style="display: block; font-size: 0.75em; font-weight: bold; color: #8e44ad;">COST OF MATERIALS</label>
+                <input type="number" id="materialCost" oninput="calculatePrice()" placeholder="0" style="width: 80%; border: none; font-size: 1.1em; outline: none;">
+                <small>TZS</small>
+            </div>
+
+            <div style="background: white; padding: 12px; border-radius: 10px; border: 1px solid #e1d5e7;">
+                <label style="display: block; font-size: 0.75em; font-weight: bold; color: #8e44ad;">MY LABOR (Time)</label>
+                <input type="number" id="laborCost" oninput="calculatePrice()" placeholder="0" style="width: 80%; border: none; font-size: 1.1em; outline: none;">
+                <small>TZS</small>
+            </div>
+
+            <div style="background: white; padding: 12px; border-radius: 10px; border: 1px solid #e1d5e7;">
+                <label style="display: block; font-size: 0.75em; font-weight: bold; color: #8e44ad;">WANTED PROFIT (%)</label>
+                <input type="number" id="profitMargin" oninput="calculatePrice()" value="20" style="width: 80%; border: none; font-size: 1.1em; outline: none;">
+                <small>%</small>
+            </div>
+        </div>
+
+        <div style="background: #2c3e50; color: white; border-radius: 15px; padding: 25px; text-align: center; display: flex; flex-direction: column; justify-content: center;">
+            <span style="font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; color: #f1c40f;">Recommended Selling Price</span>
+            <div style="font-size: 2em; font-weight: 800; margin: 10px 0;">
+                <span id="finalPriceLabel">0</span> <small style="font-size: 0.4em;">TZS</small>
+            </div>
+            <p id="priceAdvice" style="font-size: 0.75em; opacity: 0.8; font-style: italic;">Enter costs to see your price!</p>
+        </div>
+
+    </div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 30px;">
+    
+    <div class="card" style="border-left: 5px solid #e74c3c; background: #fff5f5; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <h3 style="margin-top: 0; color: #c0392b;">💸 Expense Breakdown</h3>
+        <p style="font-size: 0.8em; color: #666;">Enter your top 3 monthly business costs:</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" placeholder="e.g. Rent/Shop" style="flex: 2; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                <input type="number" id="exp1" oninput="updateFinanceSummary(); calculateBreakEven();" placeholder="Amount" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" placeholder="e.g. Internet/Data" style="flex: 2; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                <input type="number" id="exp2" oninput="updateFinanceSummary(); calculateBreakEven();" placeholder="Amount" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" placeholder="e.g. Transport" style="flex: 2; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                <input type="number" id="exp3" oninput="updateFinanceSummary(); calculateBreakEven();" placeholder="Amount" style="flex: 1; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="border-left: 5px solid #2ecc71; background: #f4fff8; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <h3 style="margin-top: 0; color: #27ae60;">🏁 Break-Even Point</h3>
+        <p style="font-size: 0.8em; color: #666;">How many items must you sell to cover these costs?</p>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #27ae60; margin-bottom: 5px;">PRICE PER ITEM (TZS)</label>
+            <input type="number" id="itemPrice" oninput="calculateBreakEven()" placeholder="e.g. 5000" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;">
+        </div>
+        
+        <div style="background: #2c3e50; color: white; padding: 20px; border-radius: 12px; text-align: center;">
+            <span style="font-size: 0.8em; opacity: 0.8;">Items to sell to pay bills:</span>
+            <div style="font-size: 2em; font-weight: bold; color: #f1c40f; margin-top: 5px;">
+                <span id="unitsToSell">0</span> <small style="font-size: 0.4em;">Units</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 25px; background: #ffffff; border: 2px solid #34495e; padding: 25px; border-radius: 20px; text-align: center;">
+    <h4 style="margin: 0; color: #34495e; text-transform: uppercase; letter-spacing: 1px;">📈 Monthly Financial Health</h4>
+    <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 20px; flex-wrap: wrap; gap: 20px;">
+        <div>
+            <p style="font-size: 0.85em; color: #7f8c8d; margin-bottom: 5px;">Projected Income</p>
+            <span id="projIncome" style="font-size: 1.4em; font-weight: bold; color: #27ae60;">0 TZS</span>
+        </div>
+        <div style="height: 50px; width: 1px; background: #eee;" class="hide-mobile"></div>
+        <div>
+            <p style="font-size: 0.85em; color: #7f8c8d; margin-bottom: 5px;">Projected Expenses</p>
+            <span id="projExpense" style="font-size: 1.4em; font-weight: bold; color: #e74c3c;">0 TZS</span>
+        </div>
+    </div>
+</div>
+<div id="financeAdviceBox" style="margin-top: 20px; padding: 20px; border-radius: 15px; display: none; border: 1px solid #ddd; transition: 0.3s;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <span id="adviceEmoji" style="font-size: 2em;">💡</span>
+        <div>
+            <h4 id="adviceStatus" style="margin: 0; text-transform: uppercase; font-size: 0.9em;">Business Analysis</h4>
+            <p id="adviceText" style="margin: 5px 0 0; font-size: 0.85em; color: #555; line-height: 1.4;"></p>
+        </div>
+    </div>
+</div>
+ <footer style="text-align: center; padding: 40px; color: #7f8c8d;">
+        <small>&copy; 2026 Junior CEO Academy &bull; Interactive Learning Platform</small>
+    </footer>
+<div class="card" style="border-top: 5px solid #34495e; background: #fdfefe; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin-top: 50px; border: 1px solid #eee;">
+    <h2 style="color: #2c3e50; margin-top: 0; display: flex; align-items: center; gap: 10px;">
+        🎓 CEO Graduation Reflection
+    </h2>
+    <p style="color: #7f8c8d; margin-bottom: 25px;">Congratulations on completing the lab! Tell us about your journey.</p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+        
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div>
+                <label style="display: block; font-weight: bold; color: #34495e; margin-bottom: 8px;">1. What was the most useful thing you learned?</label>
+                <select id="usefulLesson" style="width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; background: #f8f9fa;">
+                    <option value="">-- Select an option --</option>
+                    <option value="branding">Creating a Brand Identity</option>
+                    <option value="finance">Pricing & Profit Calculation</option>
+                    <option value="marketing">Marketing in Arusha</option>
+                    <option value="goals">Setting Daily CEO Goals</option>
+                </select>
+            </div>
+
+            <div>
+                <label style="display: block; font-weight: bold; color: #34495e; margin-bottom: 8px;">2. How confident do you feel to start now?</label>
+                <div style="display: flex; justify-content: space-between; padding: 0 10px;">
+                    <span style="font-size: 1.2em;">🏃‍♂️</span>
+                    <input type="range" min="1" max="5" value="3" style="flex: 1; margin: 0 15px; cursor: pointer;">
+                    <span style="font-size: 1.2em;">🚀</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; font-size: 0.7em; color: #95a5a6; margin-top: 5px;">
+                    <span>Just starting</span>
+                    <span>Ready to launch!</span>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <label style="display: block; font-weight: bold; color: #34495e; margin-bottom: 8px;">3. Any message for your mentor?</label>
+            <textarea id="mentorMessage" placeholder="I enjoyed the video because... I wish we learned more about..." 
+                      style="width: 100%; height: 120px; padding: 15px; border-radius: 10px; border: 1px solid #ddd; outline: none; resize: none; background: #f8f9fa; font-family: inherit; box-sizing: border-box;"></textarea>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <button onclick="submitFeedback()" style="background: #27ae60; color: white; padding: 15px 50px; border: none; border-radius: 50px; font-weight: bold; font-size: 1.1em; cursor: pointer; box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3); transition: 0.3s;">
+            📤 SUBMIT MY REFLECTION
+        </button>
+        <p id="submitMsg" style="margin-top: 15px; font-weight: bold; color: #27ae60; display: none;">✅ Thank you! Your reflection has been saved locally.</p>
+    </div>
+</div>
+        </section>
+
+        <section id="settings">
+            <div style="text-align: center;">
+                <img src="Screenshot 2026-03-25 120058.png" style="width: 100px; border-radius: 50%; border: 5px solid #dfe6e9;">
+                <h2 style="color: #e74c3c;">Teacher's Admin Suite</h2>
+            </div>
+            <div style="background: #2d3436; color: white; padding: 25px; border-radius: 15px; margin-top: 20px;">
+                <h4 style="color: #e74c3c; margin-top: 0;">🔒 Secure Grading</h4>
+                <textarea rows="4" style="width: 100%; background: #3b444b; color: white; border: 1px solid #444;" placeholder="Teacher, evaluate her quiz and brand plan here..."></textarea>
+            </div>
+			<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 30px;">
+    
+    <div class="card" style="border-left: 5px solid #3498db; background: #f0f7ff; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <h3 style="margin-top: 0; color: #2980b9;">👤 CEO Profile</h3>
+        <p style="font-size: 0.8em; color: #666;">Update how your name appears on the dashboard.</p>
+        
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #2980b9;">CEO FULL NAME</label>
+            <input type="text" id="ceoInputName" oninput="updateProfileName(this)" placeholder="e.g. Nashon Alfred" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; box-sizing: border-box;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; font-size: 0.75em; font-weight: bold; color: #2980b9;">BUSINESS CATEGORY</label>
+            <select style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd; background: white;">
+                <option>Retail & Shops</option>
+                <option>Tech & Coding</option>
+                <option>Agriculture / Poultry</option>
+                <option>Services / Consulting</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="card" style="border-left: 5px solid #e74c3c; background: #fff5f5; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <h3 style="margin-top: 0; color: #c0392b;">🛡️ Business Security</h3>
+        <p style="font-size: 0.8em; color: #666;">Protect your financial data and account.</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 10px;">
+            <label style="display: flex; align-items: center; gap: 10px; font-size: 0.9em; cursor: pointer;">
+                <input type="checkbox" checked> Enable Two-Step Verification (2FA)
+            </label>
+            <label style="display: flex; align-items: center; gap: 10px; font-size: 0.9em; cursor: pointer;">
+                <input type="checkbox"> Hide Profit from Guests
+            </label>
+            <label style="display: flex; align-items: center; gap: 10px; font-size: 0.9em; cursor: pointer;">
+                <input type="checkbox"> Use Fingerprint Login (Simulated)
+            </label>
+        </div>
+        
+        <button onclick="alert('Settings Saved Successfully!')" style="margin-top: 20px; width: 100%; background: #c0392b; color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            💾 Save Security Changes
+        </button>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 25px; background: #2c3e50; color: white; padding: 20px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h4 style="margin: 0; color: #f1c40f;">🚀 CEO Masterclass Version 1.0</h4>
+        <p style="margin: 5px 0 0; font-size: 0.75em; opacity: 0.8;">Local Database Status: <span style="color: #2ecc71;">Online & Connected</span></p>
+    </div>
+    <button onclick="location.reload()" style="background: rgba(255,255,255,0.1); border: 1px solid white; color: white; padding: 5px 15px; border-radius: 5px; cursor: pointer; font-size: 0.8em;">Refresh App</button>
+</div>
+<div class="card" style="border-left: 5px solid #34495e; background: #fdfefe; padding: 20px; border-radius: 15px; margin-top: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center;">
+    <div>
+        <h4 style="margin: 0; color: #2c3e50;">🌙 Dark Mode</h4>
+        <p style="margin: 5px 0 0; font-size: 0.75em; color: #7f8c8d;">Easier on the eyes for night work.</p>
+    </div>
+    
+    <label style="position: relative; display: inline-block; width: 50px; height: 26px;">
+        <input type="checkbox" id="darkModeToggle" onclick="toggleDarkMode()" style="opacity: 0; width: 0; height: 0;">
+        <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 34px;" id="slider"></span>
+    </label>
+</div>
+        </section>
+		<section id="graduation" style="text-align: center; padding: 60px 40px;">
+    
+    <div class="no-print">
+        <h1 style="font-size: 3em; color: #2c3e50; margin-bottom: 10px;">🎊 CONGRATULATIONS!</h1>
+        <p style="font-size: 1.2em; color: #7f8c8d; margin-bottom: 30px;">You have successfully transformed from a student into a Junior CEO.</p>
+        
+        <div style="background: #f1f2f6; display: inline-block; padding: 20px 40px; border-radius: 50px; margin-bottom: 40px;">
+            <p style="margin: 0; font-weight: bold; color: #34495e;">Ready to launch your business in Arusha?</p>
+        </div>
+    </div>
+
+    <div id="certificate" style="border: 10px double #2c3e50; padding: 50px; background: #fff; position: relative; max-width: 700px; margin: 0 auto; box-shadow: 0 0 20px rgba(0,0,0,0.1);">
+        
+        <div style="position: absolute; top: 10px; left: 10px; font-size: 2em;">📜</div>
+        <div style="position: absolute; top: 10px; right: 10px; font-size: 2em;">📜</div>
+
+        <h3 style="font-family: 'Times New Roman', serif; letter-spacing: 5px; color: #2c3e50; margin-bottom: 0;">CERTIFICATE OF COMPLETION</h3>
+        <hr style="width: 50%; border: 1px solid #2c3e50; margin: 20px auto;">
+        
+        <p style="font-style: italic; font-size: 1.2em;">This is to certify that</p>
+        
+        <h2 id="certName" style="font-size: 2.5em; color: #27ae60; margin: 10px 0; text-decoration: underline;">[Student Name]</h2>
+        
+        <p style="font-size: 1.1em; line-height: 1.6;">
+            Has successfully completed the <strong>Junior CEO Academy Masterclass</strong><br>
+            demonstrating mastery in <em>Market Research, Financial Planning, and Brand Identity.</em>
+        </p>
+
+        <div style="display: flex; justify-content: space-around; margin-top: 50px;">
+            <div style="border-top: 2px solid #2c3e50; width: 200px; padding-top: 10px;">
+                <p style="margin: 0; font-size: 0.9em;"><strong>Mwalimu Alfred</strong></p>
+                <small>Lead Instructor</small>
+            </div>
+            <div style="border-top: 2px solid #2c3e50; width: 200px; padding-top: 10px;">
+                <p style="margin: 0; font-size: 0.9em;"><strong>E3Empower</strong></p>
+                <small>Innovation Partner</small>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <img src="Screenshot 2026-03-25 120058.png" style="width: 80px; opacity: 0.8;">
+        </div>
+    </div>
+
+    <div class="no-print" style="margin-top: 50px;">
+        <button onclick="printCertificate()" style="background: #27ae60; color: white; padding: 20px 60px; border: none; border-radius: 50px; font-weight: bold; font-size: 1.3em; cursor: pointer; box-shadow: 0 10px 20px rgba(39, 174, 96, 0.3);">
+            🖨️ PRINT MY CEO CERTIFICATE
+        </button>
+    </div>
+	<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin-top: 30px;">
+    
+    <div class="card" style="border-left: 5px solid #2c3e50; background: #f8f9fa; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+        <h3 style="margin-top: 0; color: #2c3e50;">👥 Team Management</h3>
+        <p style="font-size: 0.8em; color: #666;">Who is helping you run the business?</p>
+        
+        <div id="teamList" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px;">
+            <div style="display: flex; gap: 5px;">
+                <input type="text" placeholder="Name (e.g. Irene)" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                <input type="text" placeholder="Role (e.g. Sales)" style="flex: 1; padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+            </div>
+        </div>
+        <button onclick="addTeamMember()" style="width: 100%; background: #bdc3c7; color: #2c3e50; border: none; padding: 8px; border-radius: 5px; cursor: pointer; font-size: 0.8em; font-weight: bold;">+ Add Team Member</button>
+    </div>
+
+    <div class="card" style="border-left: 5px solid #e67e22; background: #fffcf5; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align: center;">
+        <h3 style="margin-top: 0; color: #d35400;">⏱️ CEO Focus Session</h3>
+        <p style="font-size: 0.8em; color: #666;">Focus on one big task for 25 minutes.</p>
+        
+        <div style="font-size: 3em; font-weight: bold; color: #2c3e50; margin: 15px 0;" id="timerDisplay">25:00</div>
+        
+        <div style="display: flex; gap: 10px; justify-content: center;">
+            <button id="startBtn" onclick="toggleTimer()" style="background: #27ae60; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">START</button>
+            <button onclick="resetTimer()" style="background: #e74c3c; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">RESET</button>
+        </div>
+        <p id="timerStatus" style="font-size: 0.75em; margin-top: 10px; color: #7f8c8d;">Status: Idle</p>
+    </div>
+</div>
+
+<div class="card" style="margin-top: 25px; background: #ffffff; border: 2px solid #e74c3c; padding: 25px; border-radius: 20px;">
+    <h4 style="margin: 0; color: #c0392b; display: flex; align-items: center; gap: 10px;">🛡️ Security & Access Control</h4>
+    <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 12px;">
+        <label style="display: flex; align-items: center; gap: 10px; font-size: 0.9em;">
+            <input type="checkbox"> Require Password for Finance Tab
+        </label>
+        <label style="display: flex; align-items: center; gap: 10px; font-size: 0.9em;">
+            <input type="checkbox"> Enable Two-Step Verification (2FA)
+        </label>
+        <label style="display: flex; align-items: center; gap: 10px; font-size: 0.9em;">
+            <input type="checkbox"> Auto-Logout after 15 minutes
+        </label>
+    </div>
+    <div style="margin-top: 15px; background: #fdf2f2; padding: 10px; border-radius: 8px;">
+        <small style="color: #c0392b;"><strong>Pro-Tip:</strong> Never share your CEO password with staff or interns!</small>
+    </div>
+</div>
+</section>
+
+    </div>
+
+   
+</body>
+</html>
